@@ -93,4 +93,8 @@ ENV OMBRE_EMBED_BACKEND=api
 
 EXPOSE 8000
 
-ENTRYPOINT ["./entrypoint.sh"]
+# ---- Render wrapper: restore buckets + background backup before boot ----
+COPY render_deploy/ /app/deploy_files/
+RUN chmod +x /app/deploy_files/render-hook.sh
+
+ENTRYPOINT ["/bin/sh", "/app/deploy_files/render-hook.sh"]
